@@ -35,9 +35,8 @@ const Hero = () => {
   return (
     <>
     <section className="relative py-20 lg:py-24 lg:mb-16">
-        <div className="container px-4">
-            <h1 className="heading-1">Idea make fosters brainstorming <span className="font-light">and idea generation
-                processes</span></h1>
+        <div className="container px-4 text-center">
+            <h1 className="heading-1">Welcome To <span className="font-light">Family JS</span></h1>
             <div className="swiper-container post-slider-4">
                 <Swiper {...swiperOptions} className="pt-4 swiper-wrapper">
                     <SwiperSlide className="swiper-slide hover-up">

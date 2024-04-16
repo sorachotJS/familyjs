@@ -16,72 +16,81 @@ import PostCard10 from "./PostCard10"
 import PostCard11 from "./PostCard11"
 
 export default  function BlogPost({ style, showItem, showPagination, startFrom, toEnd }) {
-    const data = allData.slice(startFrom, toEnd)
-    const dataBlog =  fetch('http://localhost:5000/ApiNode/blog')
-    console.log(dataBlog)
+    // const data = allData.slice(startFrom, toEnd)
+    let dataRes
+    const [dataJson, setDataJson] = useState([])
 
-    let [currentPage, setCurrentPage] = useState(1)
-    let showLimit = showItem,
-        paginationItem = 4
+    // let [currentPage, setCurrentPage] = useState(1)
+    // let showLimit = showItem,
+    //     paginationItem = 4
 
-    let [pagination, setPagination] = useState([])
-    let [limit, setLimit] = useState(showLimit)
-    let [pages, setPages] = useState(Math.ceil(data.length / limit))
-
+    
     useEffect(() => {
-        cratePagination()
-    }, [limit, pages, data.length])
+        const fetchData = async () => {
+            dataRes = await getBlog();
+            console.log(dataRes.data.Data)
+            setDataJson(dataRes.data.Data)
+        };
+        fetchData();
+    }, [])
 
-    const cratePagination = () => {
-        // set pagination
-        let arr = new Array(Math.ceil(data.length / limit))
-            .fill()
-            .map((_, idx) => idx + 1)
-
-        setPagination(arr)
-        setPages(Math.ceil(data.length / limit))
+    const getBlog = async () => {
+        const response = await fetch('http://localhost:5000/ApiNode/blog');
+        const blogData = await response.json();
+        return blogData;
     }
 
-    const startIndex = currentPage * limit - limit
-    const endIndex = startIndex + limit
-    const getPaginatedProducts = data.slice(startIndex, endIndex)
+    // console.log(dataRes)
+    // let [pagination, setPagination] = useState([])
+    // let [limit, setLimit] = useState(showLimit)
+    // let [pages, setPages] = useState(Math.ceil(dataRes.length / limit))
+
+    // useEffect(() => {
+    //     cratePagination()
+    // }, [limit, pages, dataRes.length])
+
+    
+
+    // const cratePagination = () => {
+    //     // set pagination
+    //     let arr = new Array(Math.ceil(dataRes.length / limit))
+    //         .fill()
+    //         .map((_, idx) => idx + 1)
+
+    //     setPagination(arr)
+    //     setPages(Math.ceil(data.length / limit))
+    // }
+
+    // const startIndex = currentPage * limit - limit
+    // const endIndex = startIndex + limit
+    // const getPaginatedProducts = dataRes.slice(startIndex, endIndex)
 
 
-    let start = Math.floor((currentPage - 1) / paginationItem) * paginationItem
-    let end = start + paginationItem
-    const getPaginationGroup = pagination.slice(start, end)
+    // let start = Math.floor((currentPage - 1) / paginationItem) * paginationItem
+    // let end = start + paginationItem
+    // const getPaginationGroup = pagination.slice(start, end)
 
-    const next = () => {
-        setCurrentPage((page) => page + 1)
-    }
+    // const next = () => {
+    //     setCurrentPage((page) => page + 1)
+    // }
 
-    const prev = () => {
-        setCurrentPage((page) => page - 1)
-    }
+    // const prev = () => {
+    //     setCurrentPage((page) => page - 1)
+    // }
 
-    const handleActive = (item) => {
-        setCurrentPage(item)
-    }
+    // const handleActive = (item) => {
+    //     setCurrentPage(item)
+    // }
     return (
         <>
-            {getPaginatedProducts.length === 0 && (
+            {/* {dataJson.length === 0 && (
                 <h3>No Products Found </h3>
-            )}
+            )} */}
 
-            {getPaginatedProducts.map(post => (
+            {dataJson.map(post => (
                 <React.Fragment key={post.id}>
-                    {!style && <PostCard1 post={post} />}
-                    {style === 1 && <PostCard1 post={post} />}
-                    {style === 2 && <PostCard2 post={post} />}
-                    {style === 3 && <PostCard3 post={post} />}
-                    {style === 4 && <PostCard4 post={post} />}
-                    {style === 5 && <PostCard5 post={post} />}
-                    {style === 6 && <PostCard6 post={post} />}
-                    {style === 7 && <PostCard7 post={post} />}
-                    {style === 8 && <PostCard8 post={post} />}
-                    {style === 9 && <PostCard9 post={post} />}
-                    {style === 10 && <PostCard10 post={post} />}
-                    {style === 11 && <PostCard11 post={post} />}
+                    <PostCard2 post={post} />
+                    
                 </React.Fragment>
             ))}
         <br />
